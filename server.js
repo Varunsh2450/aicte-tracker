@@ -36,14 +36,22 @@ app.use('/api/auth', authRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Basic route to test server
-app.get('/', (req, res) => {
-  res.send('AICTE Activity Point Tracker API is running...');
-});
+// Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/dist')));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('AICTE Activity Point Tracker API is running...');
+  });
+}
 
-// Error handling for undefined routes
-app.use((req, res, next) => {
-  res.status(404).json({ message: 'Route not found' });
+// Error handling for undefined routes (Only applies to API routes since '*' catches frontend)
+app.use('/api/*', (req, res, next) => {
+  res.status(404).json({ message: 'API Route not found' });
 });
 
 // Global error handler
