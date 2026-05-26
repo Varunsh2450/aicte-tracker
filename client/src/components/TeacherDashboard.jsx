@@ -5,6 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import Papa from 'papaparse';
 import api from '../api';
 
+const SERVER_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+
 const TeacherDashboard = ({ user }) => {
   const [activities, setActivities] = useState([]);
   const [historyActivities, setHistoryActivities] = useState([]);
@@ -385,13 +387,13 @@ const TeacherDashboard = ({ user }) => {
               <div className="flex-1 bg-black/50 p-4 flex justify-center items-center overflow-auto relative">
                 {viewingCertificate.toLowerCase().endsWith('.pdf') ? (
                   <iframe 
-                    src={`http://localhost:5000/${viewingCertificate}`} 
+                    src={`${SERVER_URL}/${viewingCertificate}`} 
                     className="w-full h-full rounded-xl bg-white"
                     title="Certificate PDF"
                   />
                 ) : (
                   <img 
-                    src={`http://localhost:5000/${viewingCertificate}`} 
+                    src={`${SERVER_URL}/${viewingCertificate}`} 
                     alt="Certificate" 
                     className="max-w-full max-h-full rounded-xl object-contain shadow-2xl"
                   />

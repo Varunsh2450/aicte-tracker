@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, Clock, XCircle, History as HistoryIcon, Link2, FileText, X, Trash2 } from 'lucide-react';
 import api from '../../api';
 
+const SERVER_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+
 const StudentHistory = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -164,13 +166,13 @@ const StudentHistory = () => {
               <div className="flex-1 bg-black/50 p-4 flex justify-center items-center overflow-auto relative">
                 {viewingCertificate.toLowerCase().endsWith('.pdf') ? (
                   <iframe 
-                    src={`http://localhost:5000/${viewingCertificate}`} 
+                    src={`${SERVER_URL}/${viewingCertificate}`} 
                     className="w-full h-full rounded-xl bg-white"
                     title="Certificate PDF"
                   />
                 ) : (
                   <img 
-                    src={`http://localhost:5000/${viewingCertificate}`} 
+                    src={`${SERVER_URL}/${viewingCertificate}`} 
                     alt="Certificate" 
                     className="max-w-full max-h-full rounded-xl object-contain shadow-2xl"
                   />
