@@ -41,7 +41,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')));
   
   app.get(/(.*)/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+    const fs = require('fs');
+    const indexPath = path.resolve(__dirname, 'client', 'dist', 'index.html');
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.status(200).send('Backend API is running. Frontend is deployed separately.');
+    }
   });
 } else {
   app.get('/', (req, res) => {
