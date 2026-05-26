@@ -40,7 +40,7 @@ app.use('/api/admin', adminRoutes);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')));
   
-  app.get('*', (req, res) => {
+  app.get(/(.*)/, (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
   });
 } else {
@@ -49,8 +49,8 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Error handling for undefined routes (Only applies to API routes since '*' catches frontend)
-app.use('/api/*', (req, res, next) => {
+// Error handling for undefined routes (Only applies to API routes since catch-all handles frontend)
+app.use('/api', (req, res, next) => {
   res.status(404).json({ message: 'API Route not found' });
 });
 
